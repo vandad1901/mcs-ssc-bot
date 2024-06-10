@@ -74,7 +74,7 @@ def askForMoneyString(form: dict, selectedClass: dict):
         str += f"{IDENTIFICATION_CARD} کد ملی: {form['student_id']}\n"
     str += f"{MOBILE_PHONE} شماره تماس: {form['phone_number']}\n\n"
     money = selectedClass["prices"][form["uni_status"]]
-    str += f"در صورت صحت اطلاعات بالا، مبلغ {money} را به شماره کارت `{selectedClass['card_number']}` به نام {selectedClass['cardholder_name']} پور واریز کنید و **تصویر رسید آن را ارسال کنید**. برای نهایی شدن ثبت‌نام، تایید پرداخت توسط ادمین الزامیست.\n"
+    str += f"در صورت صحت اطلاعات بالا، مبلغ {money} را به شماره کارت `{selectedClass['card_number']}` به نام {selectedClass['cardholder_name']} واریز کنید و **تصویر رسید آن را ارسال کنید**. برای نهایی شدن ثبت‌نام، تایید پرداخت توسط ادمین الزامیست.\n"
     str += f"در غیر این صورت، دستور /start را دوباره اجرا کنید."
 
     return str
