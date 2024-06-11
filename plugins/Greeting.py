@@ -7,7 +7,7 @@ from pyrogram.types import (
     CallbackQuery,
 )
 from variables import bot_id
-from strings import greetingString
+from strings import greetingText
 from db import resetSignupForm
 
 
@@ -25,7 +25,7 @@ def getGreetingKeyboard():
 async def greet(_: Client, message: Message):
     # reset bot_user
     resetResult = resetSignupForm(message.from_user.id)
-    msg = greetingString()
+    msg = greetingText()
     if len(resetResult.data) != 0:
         msg = "فرم ثبت نام شما با موفقیت پاک شد.\n\n" + msg
     await message.reply_text(
@@ -40,7 +40,7 @@ async def greet(_: Client, message: Message):
 async def greetCallback(_: Client, callback_query: CallbackQuery):
     # reset bot_user
     resetResult = resetSignupForm(callback_query.from_user.id)
-    msg = greetingString()
+    msg = greetingText()
     if len(resetResult.data) != 0:
         msg = "فرم ثبت نام شما با موفقیت پاک شد.\n\n" + msg
     await callback_query.message.edit(msg, reply_markup=getGreetingKeyboard())

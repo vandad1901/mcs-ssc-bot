@@ -19,15 +19,15 @@ uni_status_enum = [
 ]
 
 
-def greetingString():
-    str = f"سلام، وقتتون به‌خیر. {SUNFLOWER}\n"
-    str += "جهت ثبت‌نام بر روی «ثبت‌نام کلاس‌های جمع‌بندی» و جهت مشاهده وضعیت کلاس‌هایی که ثبت‌نام کردید بر روی «ثبت‌نام‌های من» کلیک کنید.\n"
-    str += f"در صورت برخورد به هرگونه مشکل و یا عدم پاسخ‌دهی ربات، از طریق دکمه «ارتباط با ما» و یا آی‌دی @MCS_SSC_Admin، به ما اطلاع دهید. {SMILING_FACE_WITH_SMILING_EYES}"
+def greetingText():
+    txt = f"سلام، وقتتون به‌خیر. {SUNFLOWER}\n"
+    txt += "جهت ثبت‌نام بر روی «ثبت‌نام کلاس‌های جمع‌بندی» و جهت مشاهده وضعیت کلاس‌هایی که ثبت‌نام کردید بر روی «ثبت‌نام‌های من» کلیک کنید.\n"
+    txt += f"در صورت برخورد به هرگونه مشکل و یا عدم پاسخ‌دهی ربات، از طریق دکمه «ارتباط با ما» و یا آی‌دی @MCS_SSC_Admin، به ما اطلاع دهید. {SMILING_FACE_WITH_SMILING_EYES}"
 
-    return str
+    return txt
 
 
-def chooseClassString(classes: list[dict]):
+def chooseClassText(classes: list[dict]):
     txt = "کلاسی که قصد ثبت‌نام آن را دارید از طریق دکمه‌های زیر انتخاب کنید.\n"
     for i, class_ in enumerate(classes):
         txt += f"{KEYCAP_DIGIT_ZERO.replace('0', str(i + 1))} {class_['name']}\n"
@@ -37,87 +37,87 @@ def chooseClassString(classes: list[dict]):
     return txt
 
 
-def classConfirmString(selectedClass: dict):
-    str = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
-    str += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
+def classConfirmText(selectedClass: dict):
+    txt = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
+    txt += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
 
-    str += "در صورت صحیح بودن کلاس، تایید کنید."
+    txt += "در صورت صحیح بودن کلاس، تایید کنید."
 
-    return str
-
-
-def uniInfoSelectionString(selectedClass):
-    str = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
-    str += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
-
-    str += f"{RED_EXCLAMATION_MARK} توجه کنید که قبل از برگزاری کلاس، اطلاعات ثبت‌نام شما با کارت دانشجویی فرد شرکت‌کننده مطابقت داده می‌شود. بنابراین لطفاً اطلاعات را با دقت ارسال کنید.\n\n"
-    str += "در صورت تایید کلاس انتخابی، لطفاً وضعیت فرد شرکت‌کننده را انتخاب کنید."
-
-    return str
+    return txt
 
 
-def askForStudentIdString(uni_status: int):
+def uniInfoSelectionText(selectedClass):
+    txt = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
+    txt += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
+
+    txt += f"{RED_EXCLAMATION_MARK} توجه کنید که قبل از برگزاری کلاس، اطلاعات ثبت‌نام شما با کارت دانشجویی فرد شرکت‌کننده مطابقت داده می‌شود. بنابراین لطفاً اطلاعات را با دقت ارسال کنید.\n\n"
+    txt += "در صورت تایید کلاس انتخابی، لطفاً وضعیت فرد شرکت‌کننده را انتخاب کنید."
+
+    return txt
+
+
+def askForStudentIdText(uni_status: int):
     if uni_status < 2:
         return f"{IDENTIFICATION_CARD} لطفاً شماره دانشجویی فرد شرکت‌کننده را در یک پیام ارسال کنید."
     else:
-        str = f"{IDENTIFICATION_CARD} کد ملی فرد شرکت کننده در کلاس را در یک پیام ارسال کنید.\n"
-        str += "جهت کسب مجوز ورود به دانشگاه برای افراد غیر از دانشجویان امیرکبیر، داشتن کد ملی الزامیست."
+        txt = f"{IDENTIFICATION_CARD} کد ملی فرد شرکت کننده در کلاس را در یک پیام ارسال کنید.\n"
+        txt += "جهت کسب مجوز ورود به دانشگاه برای افراد غیر از دانشجویان امیرکبیر، داشتن کد ملی الزامیست."
 
-        return str
+        return txt
 
 
-def askForNumberString():
+def askForNumberText():
     return f"{MOBILE_PHONE} لطفاً شماره تماس فرد شرکت‌کننده را در یک پیام ارسال کنید."
 
 
-def askForNameString():
+def askForNameText():
     return f"{BUST_IN_SILHOUETTE} لطفاً نام و نام خانوادگی فرد شرکت‌کننده را در یک پیام ارسال کنید."
 
 
-def askForMoneyString(form: dict, selectedClass: dict):
-    str = "اطلاعات شما:\n"
-    str += f"{ORANGE_BOOK} کلاس انتخابی: {selectedClass['name']}\n"
-    str += f"{BUST_IN_SILHOUETTE} نام و نام خانوادگی: {form['full_name']}\n"
-    str += f"{SCHOOL} وضعیت دانشجویی : {uni_status_enum[form['uni_status']]}\n"
+def askForMoneyText(form: dict, selectedClass: dict):
+    txt = "اطلاعات شما:\n"
+    txt += f"{ORANGE_BOOK} کلاس انتخابی: {selectedClass['name']}\n"
+    txt += f"{BUST_IN_SILHOUETTE} نام و نام خانوادگی: {form['full_name']}\n"
+    txt += f"{SCHOOL} وضعیت دانشجویی : {uni_status_enum[form['uni_status']]}\n"
     if form["uni_status"] < 2:
-        str += f"{IDENTIFICATION_CARD} شماره دانشجویی: {form['student_id']}\n"
+        txt += f"{IDENTIFICATION_CARD} شماره دانشجویی: {form['student_id']}\n"
     else:
-        str += f"{IDENTIFICATION_CARD} کد ملی: {form['student_id']}\n"
-    str += f"{MOBILE_PHONE} شماره تماس: {form['phone_number']}\n\n"
+        txt += f"{IDENTIFICATION_CARD} کد ملی: {form['student_id']}\n"
+    txt += f"{MOBILE_PHONE} شماره تماس: {form['phone_number']}\n\n"
     money = selectedClass["prices"][form["uni_status"]]
-    str += f"در صورت صحت اطلاعات بالا، مبلغ {money} را به شماره کارت `{selectedClass['card_number']}` به نام {selectedClass['cardholder_name']} واریز کنید و **تصویر رسید آن را ارسال کنید**. برای نهایی شدن ثبت‌نام، تایید پرداخت توسط ادمین الزامیست.\n"
-    str += f"در غیر این صورت، دستور /start را دوباره اجرا کنید."
+    txt += f"در صورت صحت اطلاعات بالا، مبلغ {money} را به شماره کارت `{selectedClass['card_number']}` به نام {selectedClass['cardholder_name']} واریز کنید و **تصویر رسید آن را ارسال کنید**. برای نهایی شدن ثبت‌نام، تایید پرداخت توسط ادمین الزامیست.\n"
+    txt += f"در غیر این صورت، دستور /start را دوباره اجرا کنید."
 
-    return str
-
-
-def paymentReceivedString():
-    str = "پرداخت شما ثبت شد. دقت کنید که ثبت‌نام شما تا زمان تایید شدن پرداخت توسط ادمین نهایی نمی‌شود.\n"
-    str += f"لطفاً منتظر تایید ما باشید. در صورت برخورد به هرگونه مشکل، از طریق آی‌دی @MCS_SSC_Admin، به ما اطلاع دهید. {SUNFLOWER}"
-
-    return str
+    return txt
 
 
-def paymentAcceptedString():
-    str = "پرداخت شما تایید و ثبت‌نام شما نهایی شد. مکان دقیق کلاس دقایقی قبل از شروع کلاس در کانال انجمن علمی ریاضی و علوم کامپیوتر (@MCS_SSC) اطلاع‌رسانی می‌شود.\n"
-    str += "در صورت برخورد به هرگونه مشکل، می‌توانید از طریق آی‌دی @MCS_SSC_Admin با ما در ارتباط باشید.\n"
-    str += f"خوش‌حالیم که کلاس‌های ما را انتخاب کردید. {SMILING_FACE_WITH_SMILING_EYES}{SUNFLOWER}"
+def paymentReceivedText():
+    txt = "پرداخت شما ثبت شد. دقت کنید که ثبت‌نام شما تا زمان تایید شدن پرداخت توسط ادمین نهایی نمی‌شود.\n"
+    txt += f"لطفاً منتظر تایید ما باشید. در صورت برخورد به هرگونه مشکل، از طریق آی‌دی @MCS_SSC_Admin، به ما اطلاع دهید. {SUNFLOWER}"
 
-    return str
+    return txt
 
 
-def paymentAcceptedAdminString():
+def paymentAcceptedText():
+    txt = "پرداخت شما تایید و ثبت‌نام شما نهایی شد. مکان دقیق کلاس دقایقی قبل از شروع کلاس در کانال انجمن علمی ریاضی و علوم کامپیوتر (@MCS_SSC) اطلاع‌رسانی می‌شود.\n"
+    txt += "در صورت برخورد به هرگونه مشکل، می‌توانید از طریق آی‌دی @MCS_SSC_Admin با ما در ارتباط باشید.\n"
+    txt += f"خوش‌حالیم که کلاس‌های ما را انتخاب کردید. {SMILING_FACE_WITH_SMILING_EYES}{SUNFLOWER}"
+
+    return txt
+
+
+def paymentAcceptedAdminText():
     return "پرداخت کاربر تایید شد."
 
 
-def paymentRejectedString():
-    str = "پرداخت شما رد شد."
-    str += (
+def paymentRejectedText():
+    txt = "پرداخت شما رد شد."
+    txt += (
         f"لطفاً برای پیگیری از طریق آی‌دی @MCS_SSC_Admin به ادمین پیام بدهید. {SUNFLOWER}"
     )
 
-    return str
+    return txt
 
 
-def paymentRejectedAdminString():
+def paymentRejectedAdminText():
     return "پرداخت کاربر رد شد."

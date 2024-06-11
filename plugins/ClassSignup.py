@@ -21,19 +21,19 @@ from db import (
     updateSignupForm,
 )
 from strings import (
-    askForMoneyString,
-    chooseClassString,
-    classConfirmString,
-    askForNumberString,
-    paymentAcceptedAdminString,
-    paymentAcceptedString,
-    paymentRejectedAdminString,
-    paymentRejectedString,
-    uniInfoSelectionString,
-    askForStudentIdString,
-    askForNameString,
+    askForMoneyText,
+    chooseClassText,
+    classConfirmText,
+    askForNumberText,
+    paymentAcceptedAdminText,
+    paymentAcceptedText,
+    paymentRejectedAdminText,
+    paymentRejectedText,
+    uniInfoSelectionText,
+    askForStudentIdText,
+    askForNameText,
     uni_status_enum,
-    paymentReceivedString,
+    paymentReceivedText,
 )
 from filters import signupStage
 from variables import adminId
@@ -68,7 +68,7 @@ async def signupOptions(_: Client, callback_query: CallbackQuery):
         + [[InlineKeyboardButton("بازگشت", "start")]]
     )
     await callback_query.message.edit(
-        chooseClassString(classes), reply_markup=reply_markup
+        chooseClassText(classes), reply_markup=reply_markup
     )
 
 
@@ -94,7 +94,7 @@ async def classConfirm(_: Client, callback_query: CallbackQuery):
         return
 
     await callback_query.message.edit(
-        classConfirmString(class_), reply_markup=reply_markup
+        classConfirmText(class_), reply_markup=reply_markup
     )
 
 
@@ -126,7 +126,7 @@ async def askForGroupInfo(_: Client, callback_query: CallbackQuery):
         return
 
     await callback_query.message.edit(
-        uniInfoSelectionString(class_), reply_markup=reply_markup
+        uniInfoSelectionText(class_), reply_markup=reply_markup
     )
 
 
@@ -148,7 +148,7 @@ async def askForStudentId(_: Client, callback_query: CallbackQuery):
         return
 
     # Sending reply
-    msg = askForStudentIdString(uni_status)
+    msg = askForStudentIdText(uni_status)
     await callback_query.message.edit(msg)
     print(f"user {user_id} is now entering student number")
 
@@ -174,7 +174,7 @@ async def askForNumber(_: Client, message: Message):
         return
 
     # Sending reply
-    await message.reply(askForNumberString())
+    await message.reply(askForNumberText())
     print(f"user {user_id} is now entering phone number")
 
 
@@ -199,7 +199,7 @@ async def askForName(_: Client, message: Message):
         return
 
     # Sending reply
-    await message.reply(askForNameString())
+    await message.reply(askForNameText())
     print(f"user {user_id} is now entering full name")
 
 
@@ -221,7 +221,7 @@ async def askForMoney(_: Client, message: Message):
         return
 
     # Sending reply
-    await message.reply(askForMoneyString(form, selectedClass))
+    await message.reply(askForMoneyText(form, selectedClass))
     print(f"user {user_id} is now sending receipt photo")
 
 
@@ -255,7 +255,7 @@ async def askForFinalConfirmation(client: Client, message: Message):
         return
 
     # Sending reply
-    await message.reply(paymentReceivedString())
+    await message.reply(paymentReceivedText())
     await client.send_photo(
         adminId,
         photo=receipt_photo_id,
@@ -297,9 +297,9 @@ async def confirmPayment(client: Client, callback_query: CallbackQuery):
 
     # Sending reply
     await client.send_message(
-        user_id, paymentAcceptedString(), reply_to_message_id=form["receipt_message_id"]
+        user_id, paymentAcceptedText(), reply_to_message_id=form["receipt_message_id"]
     )
-    await callback_query.message.edit(paymentAcceptedAdminString())
+    await callback_query.message.edit(paymentAcceptedAdminText())
 
 
 @Client.on_callback_query(filters.regex(r"^reject_payment:((\d)+):((\d)+)$"))  # type: ignore
@@ -323,7 +323,7 @@ async def rejectPayment(client: Client, callback_query: CallbackQuery):
     # Sending reply
     await client.send_message(
         user_id,
-        paymentRejectedString(),
+        paymentRejectedText(),
         reply_to_message_id=form["receipt_message_id"],
     )
-    await callback_query.message.edit(paymentRejectedAdminString())
+    await callback_query.message.edit(paymentRejectedAdminText())
