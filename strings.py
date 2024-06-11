@@ -7,6 +7,7 @@ from pyrogram.emoji import (
     BUST_IN_SILHOUETTE,
     ORANGE_BOOK,
     SCHOOL,
+    RED_EXCLAMATION_MARK,
 )
 
 uni_status_enum = [
@@ -40,7 +41,8 @@ def classConfirmString(selectedClass: dict):
 
 def uniInfoSelectionString(selectedClass):
     str = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n\n"
-    str += "در صورت تایید کلاس انتخابی، لطفاً وضعیت خود را انتخاب کنید."
+    str += f"{RED_EXCLAMATION_MARK} توجه کنید که قبل از برگزاری کلاس، اطلاعات ثبت‌نام شما با کارت دانشجویی فرد شرکت‌کننده مطابقت داده می‌شود. بنابراین لطفاً اطلاعات را با دقت ارسال کنید.\n\n"
+    str += "در صورت تایید کلاس انتخابی، لطفاً وضعیت فرد شرکت‌کننده را انتخاب کنید."
 
     return str
 
