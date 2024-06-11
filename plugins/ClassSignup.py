@@ -6,7 +6,12 @@ from pyrogram.types import (
     InlineKeyboardButton,
     Message,
 )
-from pyrogram.emoji import CHECK_MARK_BUTTON, CROSS_MARK, FOLDED_HANDS
+from pyrogram.emoji import (
+    CHECK_MARK_BUTTON,
+    CROSS_MARK,
+    FOLDED_HANDS,
+    KEYCAP_DIGIT_ZERO,
+)
 from db import (
     getAvailableClasses,
     getCompletedFormById,
@@ -41,6 +46,7 @@ async def signupOptions(_: Client, callback_query: CallbackQuery):
     # Updating info
     try:
         updateSignupForm(user_id, {"selected_class": None})  # DB call
+        classes = getAvailableClasses()
     except Exception as e:
         print(e)
         await callback_query.message.reply_text(
@@ -53,14 +59,17 @@ async def signupOptions(_: Client, callback_query: CallbackQuery):
         [
             [
                 InlineKeyboardButton(
-                    class_["name"], callback_data=f"signup:{class_['id']}"
+                    KEYCAP_DIGIT_ZERO.replace("0", str(i + 1)),
+                    callback_data=f"signup:{class_['id']}",
                 )
-            ]
-            for class_ in getAvailableClasses()  # DB call
+                for i, class_ in enumerate(classes)  # DB call
+            ][::-1]
         ]
         + [[InlineKeyboardButton("بازگشت", "start")]]
     )
-    await callback_query.message.edit(chooseClassString(), reply_markup=reply_markup)
+    await callback_query.message.edit(
+        chooseClassString(classes), reply_markup=reply_markup
+    )
 
 
 @Client.on_callback_query(filters.regex(r"^signup:((\d)+)$"))  # type: ignore

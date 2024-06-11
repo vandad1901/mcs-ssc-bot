@@ -8,6 +8,8 @@ from pyrogram.emoji import (
     ORANGE_BOOK,
     SCHOOL,
     RED_EXCLAMATION_MARK,
+    KEYCAP_DIGIT_ZERO,
+    SPIRAL_CALENDAR,
 )
 
 uni_status_enum = [
@@ -25,22 +27,29 @@ def greetingString():
     return str
 
 
-def chooseClassString():
-    str = "کلاسی که قصد ثبت‌نام آن را دارید از طریق دکمه‌های زیر انتخاب کنید.\n"
-    str += f"در صورت تمایل به ثبت‌نام در چند کلاس، و یا ثبت‌نام چند نفر در یک کلاس، فرایند ثبت‌نام یک کلاس را کامل کنید و سپس با دستور /start به ثبت‌نام کلاس بعدی بپردازید. {SMILING_FACE_WITH_SMILING_EYES}"
+def chooseClassString(classes: list[dict]):
+    txt = "کلاسی که قصد ثبت‌نام آن را دارید از طریق دکمه‌های زیر انتخاب کنید.\n"
+    for i, class_ in enumerate(classes):
+        txt += f"{KEYCAP_DIGIT_ZERO.replace('0', str(i + 1))} {class_['name']}\n"
+        txt += f"{SPIRAL_CALENDAR} تاریخ: {class_['date']}\n\n"
+    txt += f"در صورت تمایل به ثبت‌نام در چند کلاس، و یا ثبت‌نام چند نفر در یک کلاس، فرایند ثبت‌نام یک کلاس را کامل کنید و سپس با دستور /start به ثبت‌نام کلاس بعدی بپردازید. {SMILING_FACE_WITH_SMILING_EYES}"
 
-    return str
+    return txt
 
 
 def classConfirmString(selectedClass: dict):
-    str = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n\n"
+    str = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
+    str += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
+
     str += "در صورت صحیح بودن کلاس، تایید کنید."
 
     return str
 
 
 def uniInfoSelectionString(selectedClass):
-    str = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n\n"
+    str = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
+    str += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
+
     str += f"{RED_EXCLAMATION_MARK} توجه کنید که قبل از برگزاری کلاس، اطلاعات ثبت‌نام شما با کارت دانشجویی فرد شرکت‌کننده مطابقت داده می‌شود. بنابراین لطفاً اطلاعات را با دقت ارسال کنید.\n\n"
     str += "در صورت تایید کلاس انتخابی، لطفاً وضعیت فرد شرکت‌کننده را انتخاب کنید."
 

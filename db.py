@@ -5,7 +5,14 @@ supabase: Client = create_client(db_url, db_key)
 
 
 def getAvailableClasses():
-    return supabase.table("classes").select("*").eq("upcoming", "true").execute().data
+    return (
+        supabase.table("classes")
+        .select("*")
+        .order("id")
+        .eq("upcoming", "true")
+        .execute()
+        .data
+    )
 
 
 def getClassById(classId: int):
