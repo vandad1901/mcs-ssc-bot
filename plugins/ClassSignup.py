@@ -104,19 +104,8 @@ async def askForGroupInfo(_: Client, callback_query: CallbackQuery):
     class_id = callback_query.matches[0].group(1)
 
     # Updating info
-    updateSignupForm(user_id, {"selected_class": class_id})  # DB call
-
-    # sending reply
-    reply_markup = InlineKeyboardMarkup(
-        [
-            [InlineKeyboardButton(uni_status_enum[i], f"signup:uni:{i}")]
-            for i in range(3)
-        ]
-        + [
-            [InlineKeyboardButton("بازگشت", f"signup")],
-        ]
-    )
     try:
+        updateSignupForm(user_id, {"selected_class": class_id})  # DB call
         class_ = getClassById(class_id)  # DB call
     except Exception as e:
         print(e)
@@ -124,6 +113,17 @@ async def askForGroupInfo(_: Client, callback_query: CallbackQuery):
             f"در هنگام پردازش درخواست شما خطایی رخ داد. لطفا کمی صبر کنید و دوباره تلاش کنید {FOLDED_HANDS}."
         )
         return
+
+    # sending reply
+    reply_markup = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton(uni_status_enum[i], f"signup:uni:{i}")]
+            for i in range(2 if class_["is_day_of"] else 3)
+        ]
+        + [
+            [InlineKeyboardButton("بازگشت", f"signup")],
+        ]
+    )
 
     await callback_query.message.edit(
         uniInfoSelectionText(class_), reply_markup=reply_markup
