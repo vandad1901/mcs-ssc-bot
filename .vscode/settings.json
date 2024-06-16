@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "pymongo",
-        "pyrogram"
+        "pyrogram",
+        "supabase"
     ],
     "python.analysis.typeCheckingMode": "basic",
     "cmake.configureOnOpen": false

@@ -87,6 +87,16 @@ def getCompletedFormById(form_id: int):
     return res[0] if len(res) > 0 else None
 
 
+def getCompletedFormsByClassId(class_id: int):
+    return (
+        supabase.table("completed_forms")
+        .select("*")
+        .eq("selected_class", class_id)
+        .execute()
+        .data
+    )
+
+
 def updateCompletedForm(form_id: int, data: dict):
     data["id"] = form_id
     return supabase.table("completed_forms").upsert(data).execute()

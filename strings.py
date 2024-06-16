@@ -123,3 +123,10 @@ def paymentRejectedText():
 
 def paymentRejectedAdminText():
     return "پرداخت کاربر رد شد."
+
+
+def exportCaptionText(class_: dict, total: int):
+    txt = "ثبت‌نامی های کلاس\n"
+    txt += f"{class_['name']}\n\n"
+    txt += f"تعداد کل ثبت‌نام ها: {total}\n\n"
+    return txt
