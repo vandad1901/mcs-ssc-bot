@@ -3,6 +3,9 @@ from variables import db_url, db_key
 
 supabase: Client = create_client(db_url, db_key)
 
+def getAllClasses():
+    return supabase.table("classes").select("*").order("id", desc=True).execute().data
+
 
 def getAvailableClasses():
     return (
