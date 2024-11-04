@@ -1,8 +1,25 @@
 from supabase import create_client, Client
 from variables import db_url, db_key
+from pyrogram.emoji import FOLDED_HANDS
+
 
 supabase: Client = create_client(db_url, db_key)
 
+
+def dbCall(func):
+    async def wrapper(replyFunc, *args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            await replyFunc(
+                f"در هنگام پردازش درخواست شما خطایی رخ داد. لطفا کمی صبر کنید و دوباره تلاش کنید {FOLDED_HANDS}."
+            )
+            raise e
+
+    return wrapper
+
+
+# Classes
 def getAllClasses():
     return supabase.table("classes").select("*").order("id", desc=True).execute().data
 
@@ -22,6 +39,18 @@ def getClassById(classId: int):
     return supabase.table("classes").select("*").eq("id", classId).execute().data[0]
 
 
+def getSignedUpCount(classId: int):
+    # return just the number of complete_forms that have the same selected_class as classId
+    return (
+        supabase.table("completed_forms")
+        .select("count")
+        .eq("selected_class", classId)
+        .execute()
+        .data[0]["count"]
+    )
+
+
+# Signup forms
 def getSignupFormById(telegramId: int):
     res = (
         supabase.table("signup_forms")
@@ -68,6 +97,7 @@ def moveToCompletedForms(telegramId: int):
     return res[0]
 
 
+# Completed Forms
 def getCompletedFormsByTelegramId(user_id: int):
     return (
         supabase.table("completed_forms")

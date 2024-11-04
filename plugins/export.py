@@ -58,7 +58,7 @@ async def exportSelection(_: Client, callback_query: CallbackQuery):
     markup = InlineKeyboardMarkup(buttons)
 
     await callback_query.message.edit(
-        "لطفا یک کلاس را انتخاب کنید:", reply_markup=markup
+        "لطفا یک برنامه را انتخاب کنید:", reply_markup=markup
     )
 
 

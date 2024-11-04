@@ -15,6 +15,7 @@ from pyrogram.emoji import (
 from db import (
     getAvailableClasses,
     getCompletedFormById,
+    getSignedUpCount,
     getClassById,
     moveToCompletedForms,
     updateCompletedForm,
@@ -73,33 +74,44 @@ async def signupOptions(_: Client, callback_query: CallbackQuery):
 
 
 @Client.on_callback_query(filters.regex(r"^signup:((\d)+)$"))  # type: ignore
-async def classConfirm(_: Client, callback_query: CallbackQuery):
+async def classConfirm(
+    _: Client, callback_query: CallbackQuery
+):  # Show a message asking the user to confirm their class
     # Sending reply
     classIndex = int(callback_query.matches[0].group(1))
-    reply_markup = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("بله", f"signup:confirm:{classIndex}"),
-                InlineKeyboardButton("خیر", "signup"),
-            ]
-        ]
-    )
     try:
         class_ = getClassById(classIndex)  # DB call
+        signed_up = getSignedUpCount(classIndex)
+        isFull = signed_up >= class_["limit"]
     except Exception as e:
         print(e)
         await callback_query.message.reply_text(
             f"در هنگام پردازش درخواست شما خطایی رخ داد. لطفا کمی صبر کنید و دوباره تلاش کنید {FOLDED_HANDS}."
         )
         return
+    reply_markup = InlineKeyboardMarkup(
+        [
+            (
+                [
+                    InlineKeyboardButton("بله", f"signup:confirm:{classIndex}"),
+                    InlineKeyboardButton("خیر", "signup"),
+                ]
+                if not isFull
+                else [InlineKeyboardButton("بازگشت", "signup")]
+            )
+        ]
+    )
 
     await callback_query.message.edit(
-        classConfirmText(class_), reply_markup=reply_markup
+        classConfirmText(class_, signed_up >= class_["limit"]),
+        reply_markup=reply_markup,
     )
 
 
 @Client.on_callback_query(filters.regex(r"^signup:confirm:((\d)+)$"))  # type: ignore
-async def askForGroupInfo(_: Client, callback_query: CallbackQuery):
+async def askForGroupInfo(
+    _: Client, callback_query: CallbackQuery
+):  # Show a message asking which group the student is in
     user_id = callback_query.from_user.id
     class_id = callback_query.matches[0].group(1)
 
@@ -118,7 +130,7 @@ async def askForGroupInfo(_: Client, callback_query: CallbackQuery):
     reply_markup = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton(uni_status_enum[i], f"signup:uni:{i}")]
-            for i in range(2 if class_["is_day_of"] else 3)
+            for i in range(2)
         ]
         + [
             [InlineKeyboardButton("بازگشت", f"signup")],
@@ -259,7 +271,7 @@ async def askForFinalConfirmation(client: Client, message: Message):
     await client.send_photo(
         adminId,
         photo=receipt_photo_id,
-        caption=f"پرداخت مبلغ {selectedClass['prices'][completedForm['uni_status']]} تومان برای کلاس {selectedClass['name']} توسط {completedForm['full_name']} تایید می‌شود؟",
+        caption=f"پرداخت مبلغ {selectedClass['prices'][completedForm['uni_status']]} تومان برای برنامه {selectedClass['name']} توسط {completedForm['full_name']} تایید می‌شود؟",
         reply_markup=InlineKeyboardMarkup(
             [
                 [

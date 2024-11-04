@@ -13,7 +13,7 @@ from db import resetSignupForm
 
 def getGreetingKeyboard(isAdmin: bool):
     keyboard = [
-        [InlineKeyboardButton("ثبت نام کلاس های جمع‌بندی", callback_data="signup")],
+        [InlineKeyboardButton("ثبت نام برنامه ها", callback_data="signup")],
         [InlineKeyboardButton("ثبت نام های من", callback_data="forms")],
         [InlineKeyboardButton("ارتباط با ما", url="https://t.me/MCS_SSC_Admin")],
     ]

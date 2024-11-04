@@ -25,7 +25,7 @@ async def formsCallback(_: Client, callback_query: CallbackQuery):
 
     if len(completedForms) == 0:
         await callback_query.message.edit(
-            f"شما هنوز ثبت نامی نکرده‌اید. جهت ثبت‌نام در کلاس‌ها بر روی دکمه بازگشت کلیک کنید. {SMILING_FACE_WITH_SMILING_EYES}",
+            f"شما هنوز ثبت نامی نکرده‌اید. جهت ثبت‌نام در برنامه‌ها بر روی دکمه بازگشت کلیک کنید. {SMILING_FACE_WITH_SMILING_EYES}",
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton("بازگشت", callback_data="start")]]
             ),

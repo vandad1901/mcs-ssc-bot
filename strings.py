@@ -21,40 +21,43 @@ uni_status_enum = [
 
 def greetingText():
     txt = f"سلام، وقتتون به‌خیر. {SUNFLOWER}\n"
-    txt += "جهت ثبت‌نام بر روی «ثبت‌نام کلاس‌های جمع‌بندی» و جهت مشاهده وضعیت کلاس‌هایی که ثبت‌نام کردید بر روی «ثبت‌نام‌های من» کلیک کنید.\n"
+    txt += "جهت ثبت‌نام بر روی «ثبت‌نام برنامه ها» و جهت مشاهده وضعیت برنامه هایی که ثبت‌نام کردید بر روی «ثبت‌نام‌های من» کلیک کنید.\n"
     txt += f"در صورت برخورد به هرگونه مشکل و یا عدم پاسخ‌دهی ربات، از طریق دکمه «ارتباط با ما» و یا آی‌دی @MCS_SSC_Admin، به ما اطلاع دهید. {SMILING_FACE_WITH_SMILING_EYES}"
 
     return txt
 
 
 def chooseClassText(classes: list[dict]):
-    txt = "کلاسی که قصد ثبت‌نام آن را دارید از طریق دکمه‌های زیر انتخاب کنید.\n"
+    txt = "برنامه ای که قصد ثبت‌نام آن را دارید از طریق دکمه‌های زیر انتخاب کنید.\n"
     for i, class_ in enumerate(classes):
         txt += f"{KEYCAP_DIGIT_ZERO.replace('0', str(i + 1))} {class_['name']}\n"
         txt += f"{SPIRAL_CALENDAR} تاریخ: {class_['date']}\n\n"
-    txt += f"در صورت تمایل به ثبت‌نام در چند کلاس، و یا ثبت‌نام چند نفر در یک کلاس، فرایند ثبت‌نام یک کلاس را کامل کنید و سپس با دستور /start به ثبت‌نام کلاس بعدی بپردازید. {SMILING_FACE_WITH_SMILING_EYES}"
+    txt += f"در صورت تمایل به ثبت‌نام در چند برنامه، و یا ثبت‌نام چند نفر در یک برنامه، فرایند ثبت‌نام یک برنامه را کامل کنید و سپس با دستور /start به ثبت‌نام برنامه بعدی بپردازید. {SMILING_FACE_WITH_SMILING_EYES}"
 
     return txt
 
 
-def classConfirmText(selectedClass: dict):
-    txt = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
+def classConfirmText(selectedClass: dict, classFull: bool):
+    txt = f"{CHECK_MARK_BUTTON} برنامه مورد نظر شما: {selectedClass['name']}\n"
     txt += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
 
-    txt += "در صورت صحیح بودن کلاس، تایید کنید."
+    if(classFull):
+        txt += "متاسفانه برنامه مورد نظر پر شده است."
+    else:
+        txt += "در صورت صحیح بودن برنامه، تایید کنید."
 
     return txt
 
 
 def uniInfoSelectionText(selectedClass):
-    txt = f"{CHECK_MARK_BUTTON} کلاس مورد نظر شما: {selectedClass['name']}\n"
+    txt = f"{CHECK_MARK_BUTTON} برنامه مورد نظر شما: {selectedClass['name']}\n"
     txt += f"{SPIRAL_CALENDAR} تاریخ: {selectedClass['date']}\n\n"
 
-    txt += f"{RED_EXCLAMATION_MARK} توجه کنید که قبل از برگزاری کلاس، اطلاعات ثبت‌نام شما با کارت دانشجویی فرد شرکت‌کننده مطابقت داده می‌شود. بنابراین لطفاً اطلاعات را با دقت ارسال کنید.\n\n"
+    txt += f"{RED_EXCLAMATION_MARK} توجه کنید که قبل از برگزاری برنامه، اطلاعات ثبت‌نام شما با کارت دانشجویی فرد شرکت‌کننده مطابقت داده می‌شود. بنابراین لطفاً اطلاعات را با دقت ارسال کنید.\n\n"
 
     if selectedClass["is_day_of"]:
         txt += f"{RED_EXCLAMATION_MARK} با توجه به نبود وقت کافی برای گرفتن مجوز، ثبت‌نام دانشجویان دانشگاه های دیگر بسته شده است.\n\n"
-    txt += "در صورت تایید کلاس انتخابی، لطفاً وضعیت فرد شرکت‌کننده را انتخاب کنید."
+    txt += "در صورت تایید برنامه انتخابی، لطفاً وضعیت فرد شرکت‌کننده را انتخاب کنید."
     return txt
 
 
@@ -62,7 +65,7 @@ def askForStudentIdText(uni_status: int):
     if uni_status < 2:
         return f"{IDENTIFICATION_CARD} لطفاً شماره دانشجویی فرد شرکت‌کننده را در یک پیام ارسال کنید."
     else:
-        txt = f"{IDENTIFICATION_CARD} کد ملی فرد شرکت کننده در کلاس را در یک پیام ارسال کنید.\n"
+        txt = f"{IDENTIFICATION_CARD} کد ملی فرد شرکت کننده در برنامه را در یک پیام ارسال کنید.\n"
         txt += "جهت کسب مجوز ورود به دانشگاه برای افراد غیر از دانشجویان امیرکبیر، داشتن کد ملی الزامیست."
 
         return txt
@@ -78,7 +81,7 @@ def askForNameText():
 
 def askForMoneyText(form: dict, selectedClass: dict):
     txt = "اطلاعات شما:\n"
-    txt += f"{ORANGE_BOOK} کلاس انتخابی: {selectedClass['name']}\n"
+    txt += f"{ORANGE_BOOK} برنامه انتخابی: {selectedClass['name']}\n"
     txt += f"{BUST_IN_SILHOUETTE} نام و نام خانوادگی: {form['full_name']}\n"
     txt += f"{SCHOOL} وضعیت دانشجویی : {uni_status_enum[form['uni_status']]}\n"
     if form["uni_status"] < 2:
@@ -101,9 +104,10 @@ def paymentReceivedText():
 
 
 def paymentAcceptedText():
-    txt = "پرداخت شما تایید و ثبت‌نام شما نهایی شد. مکان دقیق کلاس دقایقی قبل از شروع کلاس در کانال انجمن علمی ریاضی و علوم کامپیوتر (@MCS_SSC) اطلاع‌رسانی می‌شود.\n"
+    txt = "پرداخت شما تایید و ثبت‌نام شما نهایی شد. برای مطلع شدن از جزییات در گروه زیر عضو شوید.\n"
+    txt += "https://t.me/+O2nAdQIP4sw4OGVk\n\n"
     txt += "در صورت برخورد به هرگونه مشکل، می‌توانید از طریق آی‌دی @MCS_SSC_Admin با ما در ارتباط باشید.\n"
-    txt += f"خوش‌حالیم که کلاس‌های ما را انتخاب کردید. {SMILING_FACE_WITH_SMILING_EYES}{SUNFLOWER}"
+    txt += f"خوش‌حالیم که برنامه‌های ما را انتخاب کردید. {SMILING_FACE_WITH_SMILING_EYES}{SUNFLOWER}"
 
     return txt
 
@@ -126,7 +130,7 @@ def paymentRejectedAdminText():
 
 
 def exportCaptionText(class_: dict, total: int):
-    txt = "ثبت‌نامی های کلاس\n"
+    txt = "ثبت‌نامی های برنامه\n"
     txt += f"{class_['name']}\n\n"
     txt += f"تعداد کل ثبت‌نام ها: {total}\n\n"
     return txt
